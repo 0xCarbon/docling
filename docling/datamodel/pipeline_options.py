@@ -195,6 +195,19 @@ class TesseractOcrOptions(OcrOptions):
         extra="forbid",
     )
 
+class LLMProviderOptions(OcrOptions):
+    """Options for the LLM provider engine."""
+
+    kind: Literal["llm_provider"] = "llm_provider"
+    api_key: str
+    api_url: str
+    prompt: str = "Return only the text in the image:"
+    model: str
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
 
 class OcrMacOptions(OcrOptions):
     """Options for the Mac OCR engine."""
