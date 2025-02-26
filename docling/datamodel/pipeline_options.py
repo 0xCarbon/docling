@@ -202,6 +202,8 @@ class LLMProviderOptions(OcrOptions):  # TODO: add options
     lang: List[str] = ["fra", "deu", "spa", "eng"]
     api_key: str
     api_url: str
+    prompt: str = "Return only the text in the image:"
+    model: str
 
     model_config = ConfigDict(
         extra="forbid",

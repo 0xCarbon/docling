@@ -48,11 +48,14 @@ class LLMProviderModel(BaseOcrModel):
             except Exception as e:
                 raise ConnectionError(connection_errmsg)
             
-            models = self._client.models.list()
-            self._model = models.data[0].id
+            if self.options.model is None:
+                models = self._client.models.list()
+                self._model = models.data[0].id
+            else:
+                self._model = self.options.model
 
             if self._model is None:
-                raise ValueError("No model found. Please check your API key and API URL. ")
+                raise ValueError("No model found. Please check your configurations. ")
 
     # Single-image input inference
     def run_single_image(self, image: Image.Image) -> str:
@@ -69,7 +72,7 @@ class LLMProviderModel(BaseOcrModel):
                 "content": [
                     {
                         "type": "text",
-                        "text": "Return only the text in the image:"
+                        "text": self.options.prompt
                     },
                     {
                         "type": "image_url",
@@ -108,7 +111,7 @@ class LLMProviderModel(BaseOcrModel):
                             scale=self.scale, cropbox=ocr_rect
                         )
 
-                        result = self.run_single_image(high_res_image) # TODO: Send requests in parallel with backoff
+                        result = self.run_single_image(high_res_image)
 
                         # del high_res_image
                         all_ocr_cells.append(
