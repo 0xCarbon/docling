@@ -195,6 +195,18 @@ class TesseractOcrOptions(OcrOptions):
         extra="forbid",
     )
 
+class LLMProviderOptions(OcrOptions):  # TODO: add options
+    """Options for the LLM provider engine."""
+
+    kind: Literal["llm_provider"] = "llm_provider"
+    lang: List[str] = ["fra", "deu", "spa", "eng"]
+    api_key: str
+    api_url: str
+
+    model_config = ConfigDict(
+        extra="forbid",
+    )
+
 
 class OcrMacOptions(OcrOptions):
     """Options for the Mac OCR engine."""
