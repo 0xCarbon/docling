@@ -25,7 +25,7 @@ def draw_clusters(
             # Draw cells first (underneath)
             cell_color = (0, 0, 0, 40)  # Transparent black for cells
             for tc in c.cells:
-                cx0, cy0, cx1, cy1 = tc.bbox.as_tuple()
+                cx0, cy0, cx1, cy1 = tc.rect.to_bounding_box().as_tuple()
                 cx0 *= scale_x
                 cx1 *= scale_x
                 cy0 *= scale_x
@@ -42,6 +42,11 @@ def draw_clusters(
             x1 *= scale_x
             y0 *= scale_x
             y1 *= scale_y
+
+            if y1 <= y0:
+                y1, y0 = y0, y1
+            if x1 <= x0:
+                x1, x0 = x0, x1
 
             cluster_fill_color = (*list(DocItemLabel.get_color(c.label)), 70)
             cluster_outline_color = (
